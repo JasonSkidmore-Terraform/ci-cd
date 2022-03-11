@@ -44,7 +44,7 @@ jobs:
 
       - name: Terraform Validate
         id: validate
-        run: terraform validate -no-color
+        run: terraform validate
 
       - name: Terraform Plan
         id: plan
@@ -52,10 +52,10 @@ jobs:
         run: |
           export TF_WORKSPACE="${{ inputs.TERRAFORM_PROJECT }}-${{ inputs.ENV }}"
           cp variables/${{ inputs.ENV }}.auto.tfvars ./
-          terraform plan -input=false -no-color
+          terraform plan -input=false
         continue-on-error: true
 
-      - uses: actions/github-script@v6
+      - uses: actions/github-script0.9.0
         if: github.event_name == 'pull_request'
         env:
           PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
